@@ -46,26 +46,6 @@ impl<'a> MarkovChainer<'a> {
         
     }
 
-    pub fn add_text(&mut self, text: &str) {
-        let re = regex!(r"\n");
-        let without_newline = re.replace_all(text, ".");
-
-        let seps = regex!("([.!?;:])");
-        let mut pieces = seps.split(without_newline.as_slice());
-
-        let mut sentence = "".to_string();
-        for piece in pieces {
-            if piece != "" {
-                sentence = match seps.find(piece) {
-                    Some(_) => {
-                        self.add_sentence(sentence.as_slice(), piece);
-                        "".to_string()
-                    },
-                    None => piece.to_string(),
-                };
-            }
-        }
-    }
 }
 
 
