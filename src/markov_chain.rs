@@ -66,6 +66,40 @@ impl MarkovChainer {
             }
         }
     }
+
+    fn generate_sentence(&mut self) -> Option<String> {
+        let mut res = self.beginnings[random::<usize>() % self.beginnings.len()].clone();
+        if res.len() == self.order {
+            let mut nw = false;
+            loop {
+                let restup = (res[res.len() - 2].clone(), res[res.len() - 1].clone());
+                match self.next_word_for(restup) {
+                    Some(word) => res.push(word),
+                    None => continue,
+                }
+            }
+            let mut new_res = res.slice(0, res.len() - 2);
+            //TODO: check if is title, capitalize etc
+            let mut sentence = "".to_string();
+            for word in new_res.iter() {
+                sentence.push_str(word.as_slice());
+                sentence.push(' ');
+            }
+
+            sentence.push_str(res[res.len() - 2].clone().as_slice());
+            sentence.push_str(res[res.len() - 1].clone().as_slice());
+            Some(sentence)
+        } else {
+            None
+        }
+    }
+
+    fn next_word_for(&mut self, words: (String, String)) -> Option<String> {
+        match self.freq.get(&words) {
+            Some(array) => Some(array[random::<usize>() % array.len()].clone()),
+            None => None,
+        }
+    }
 }
 
 
