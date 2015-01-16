@@ -3,3 +3,6 @@
 name = "bot"
 version = "0.0.1"
 authors = ["thiagopnts <thiagopnts@gmail.com>"]
+
+[dependencies]
+regex = "0.1.10"
