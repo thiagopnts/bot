@@ -67,7 +67,7 @@ impl MarkovChainer {
         }
     }
 
-    fn generate_sentence(&mut self) -> Option<String> {
+    pub fn generate_sentence(&mut self) -> Option<String> {
         let mut res = self.beginnings[random::<usize>() % self.beginnings.len()].clone();
         if res.len() == self.order {
             let mut nw = false;
@@ -86,8 +86,8 @@ impl MarkovChainer {
                 sentence.push(' ');
             }
 
-            sentence.push_str(res[res.len() - 2].clone().as_slice());
-            sentence.push_str(res[res.len() - 1].clone().as_slice());
+            sentence.push_str(res[res.len() - 2].as_slice());
+            sentence.push_str(res[res.len() - 1].as_slice());
             Some(sentence)
         } else {
             None
